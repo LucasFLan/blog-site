@@ -1,15 +1,7 @@
-import { FeatureSection } from "@/components/future-section";
-import { HeroSection } from "@/components/hero-section/hero-section";
-import { SupportSection } from "@/components/support-section";
+import { LandingPage } from "@/templates/landing-page";
+import { allPosts } from "contentlayer/generated";
 
 export default function Home() {
-  return (
-    <>
-      <article className="flex flex-col">
-        <HeroSection />
-        <FeatureSection />
-        <SupportSection />
-      </article>
-    </>
-  );
+  console.log(allPosts);
+  return <LandingPage />;
 }
