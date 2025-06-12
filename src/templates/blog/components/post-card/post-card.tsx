@@ -36,7 +36,7 @@ export const PostCard = ({
             </div>
             <Image
               src={image}
-              alt=""
+              alt={title}
               width={288}
               height={144}
               className="w-full h-40 object-cover object-center rounded-t-[8px]"
@@ -59,7 +59,7 @@ export const PostCard = ({
             <div className="relative h-5 w-5 md:h-6 md:w-6 overflow-hidden rounded-full border-blue-200 border-[1px]">
               <Image
                 src={author?.avatar}
-                alt="Customer foto"
+                alt={author.name}
                 fill
                 className="object-cover rounded-md"
               />
