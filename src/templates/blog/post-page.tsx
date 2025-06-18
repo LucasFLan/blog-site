@@ -9,23 +9,23 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { useShare } from "@/hooks";
-import { Post } from "contentlayer/generated";
+import { allPosts, Post } from "contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
+import { PostShare } from "./components/post-share";
 
 export type PostPageProps = {
   post: Post;
 };
 
-export const PostPage = ({ post }: PostPageProps) => {
-  console.log(post.slug);
-  const postUrl = `https://site.set/blog/${post.slug}`;
+export async function generateStaticParams() {
+  return allPosts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
-  const { shareButtons } = useShare({
-    url: postUrl,
-    title: post.title,
-    text: post.description,
-  });
+export const PostPage = ({ post }: PostPageProps) => {
+  const postUrl = `https://site.set/blog/${post.slug}`;
 
   const publishedDate = new Date(post?.date).toLocaleDateString("pt-BR");
 
@@ -81,26 +81,11 @@ export const PostPage = ({ post }: PostPageProps) => {
               <Markdown content={post.body.raw} />
             </div>
           </article>
-          <aside className="space-y-6">
-            <div className="rounded-lg bg-gray-700">
-              <h2 className="hidden md:block mb-4 text-heading-xs text-gray-100">
-                Compartilhar
-              </h2>
-              <div className="flex justify-between md:flex-col gap-2">
-                {shareButtons.map((provider) => (
-                  <Button
-                    key={provider.provider}
-                    variant="outline"
-                    className="w-fit md:w-full justify-start gap-2"
-                    onClick={() => provider.action()}
-                  >
-                    {provider.icon}
-                    <span className="hidden md:block">{provider.name}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </aside>
+          <PostShare
+            url={postUrl}
+            title={post.title}
+            description={post.description}
+          />
         </div>
       </div>
     </main>
